@@ -61,7 +61,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "lint-staged": {
-    "{src,test}/**/*.{js,ts,tsx,jsx}": [
+    "src/**/*.{js,ts,tsx,jsx}": [
       "prettier --write",
       "eslint --fix",
       "git add"
