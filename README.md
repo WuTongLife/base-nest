@@ -9,7 +9,7 @@
 - [ ] WebSocket 实时数据传输
 - [ ] Task Scheduling 定时推送
 - [ ] 单元测试
-- [ ] 代码提交格式限制
+- [x] 代码提交格式限制
 
 #### Swagger API 文档
 
@@ -96,29 +96,57 @@ module.exports = function (options, webpack) {
 # git add . 警告（warning: LF will be replaced by CRLF in）
 git config --global core.autocrlf false
 # 插件安装
-pnpm install --save-dev husky@4.3.8 @commitlint/cli @commitlint/config-conventional commitizen lint-staged
+pnpm install --save-dev husky@4.3.8 @commitlint/cli @commitlint/config-conventional lint-staged
 ```
 
 ```json
 // package.json
 {
   "lint-staged": {
-    "{src,test}/**/*.{js,ts,tsx,jsx}": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ]
+    "{src,test}/**/*.{js,ts,tsx,jsx}": ["prettier --write", "eslint --fix"]
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS "
     }
-  },
-  "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
   }
 }
+```
+
+```javascript
+// 新建commitlint.config.js
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      [
+        'build', // 构建执行
+        'chore', // 构建工具相关
+        'ci', // CI 相关
+        'docs', // 文档更新
+        'feat', // 新功能
+        'fix', // bug 修复
+        'perf', // 性能优化
+        'refactor', // 功能重构
+        'release', // 大版本更新
+        'revert', // 回滚操作
+        'style', // 样式变动
+        'test', // 单元测试
+        'upd', // 普通功能更新
+      ],
+    ],
+    'type-case': [0],
+    'type-empty': [0],
+    'scope-empty': [0],
+    'scope-case': [0],
+    'subject-full-stop': [0, 'never'],
+    'subject-case': [0, 'never'],
+    'header-max-length': [0, 'always', 72],
+  },
+};
 ```
 
 ## Installation
