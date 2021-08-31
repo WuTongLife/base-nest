@@ -96,7 +96,7 @@ module.exports = function (options, webpack) {
 # git add . 警告（warning: LF will be replaced by CRLF in）
 git config --global core.autocrlf false
 # 插件安装
-pnpm install --save-dev husky @commitlint/cli @commitlint/config-conventional commitizen lint-staged
+pnpm install --save-dev husky@4.3.8 @commitlint/cli @commitlint/config-conventional commitizen lint-staged
 ```
 
 ```json
