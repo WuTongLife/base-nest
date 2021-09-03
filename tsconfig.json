@@ -16,6 +16,27 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@config/*": ["./src/common/config/*"],
+      "@entities": ["./src/entities/index.ts"],
+      "@config": ["./src/common/config/index.ts"],
+      "@interfaces/*": ["./src/common/interfaces/*"],
+      "@filters/*": ["./src/common/filters/*"],
+      "@processors/*": ["./src/common/processors/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@interceptors/*": ["./src/common/interceptors/*"],
+      "@constants/*": ["./src/common/constants/*"],
+      "@pipes/*": ["./src/common/pipes/*"],
+      "@utils/*": ["./src/common/utils/*"],
+      "@transforms/*": ["./src/common/transforms/*"],
+      "@decorators/*": ["./src/common/decorators/*"],
+      "@middlewares/*": ["./src/common/middlewares/*"],
+      "@common/*": ["./src/common/*"],
+      "@models/*": ["./src/models/*"],
+      "@src/*": ["./src/*"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts", "**/*.tsx"]
 }

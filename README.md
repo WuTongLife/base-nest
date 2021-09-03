@@ -39,6 +39,8 @@ async function bootstrap() {
 
 #### 热加载
 
+##### 方式一：（有时有用，有时没用）
+
 ```bash
 # 安装插件
 pnpm install --save-dev webpack-node-externals run-script-webpack-plugin webpack
@@ -88,6 +90,19 @@ module.exports = function (options, webpack) {
     ],
   };
 };
+```
+
+##### 方式二：(每次会保存会重启)
+
+```bash
+pnpm install --save-dev concurrently wait-on nodemon
+```
+
+```json
+{
+  "start": "ts-node -r tsconfig-paths/register src/main.ts",
+  "start:dev": "concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" "
+}
 ```
 
 #### 规范提交格式
@@ -147,6 +162,38 @@ module.exports = {
     'header-max-length': [0, 'always', 72],
   },
 };
+```
+
+#### 数据库 TypeORM
+
+```bash
+pnpm install mysql reflect-metadata typeorm
+```
+
+```javascript
+// app.module.ts
+@Module({
+  imports: [
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        type: 'xxx',
+        host: 'xxx',
+        port: 3306,
+        username: 'xxx',
+        dateStrings: true,
+        charset: 'xxx',
+        timezone: 'xxx',
+        password: 'xxx***',
+        database: 'xxx',
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true
+      }),
+      connectionFactory: async (options) => await createConnection(options),
+    }),
+  ]
+})
 ```
 
 ## Installation
