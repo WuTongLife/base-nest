@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto, RegisterUserDto } from './dto';
 import { HttpForbiddenError, ValidationError } from '@common/exceptions';
 import { CryptoUtil } from '@utils/crypto.util';
+import { CacheService } from '@cache';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private readonly userRepository: Repository<UserEntity>,
     private readonly jwtService: JwtService,
     private readonly cryptoUtil: CryptoUtil,
+    private readonly redisService: CacheService,
   ) {}
 
   // 验证用户
@@ -40,6 +42,7 @@ export class AuthService {
       username: user.username,
       password: user.password,
     });
+    await this.redisService.set(`user-token-${user.id}`, token, 60 * 60 * 24); // 在这里使用redis
     // 返回生成的 token
     return { token };
   }

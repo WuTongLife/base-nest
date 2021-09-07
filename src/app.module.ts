@@ -8,18 +8,16 @@ import { AppService } from './app.service';
 import appConfig from '@config';
 import { loggerOptions } from '@utils/log.util';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard, RolesGuard } from '@common/guards';
+import { JwtAuthGuard } from '@common/guards';
 import { AuthModule } from '@common/auth/auth.module';
 import { UserModule } from '@modules/system/user/user.module';
+import { RedisService } from '@cache';
 
 @Module({
   imports: [
+    AuthModule,
+    UserModule,
     WinstonModule.forRoot(loggerOptions),
-    ConfigModule.forRoot({
-      load: appConfig,
-      isGlobal: true,
-      envFilePath: ['.env.development.local', '.env.development'],
-    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -40,18 +38,16 @@ import { UserModule } from '@modules/system/user/user.module';
       }),
       connectionFactory: async (options) => await createConnection(options),
     }),
-    // redis
-    // RedisModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: async (config: ConfigService) => config.get<RedisModuleOptions>('redis'),
-    //   inject: [ConfigService],
-    // }),
-    AuthModule,
-    UserModule,
+    // config
+    ConfigModule.forRoot({
+      load: appConfig,
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
   providers: [
     AppService,
+    RedisService,
     // {
     //   provide: APP_GUARD,
     //   useClass: RolesGuard,

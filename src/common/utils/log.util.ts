@@ -1,6 +1,5 @@
 import * as winston from 'winston';
 import DailyRotateFile = require('winston-daily-rotate-file');
-import dayjs = require('dayjs');
 
 const format = winston.format;
 const { colorize } = format;
@@ -56,7 +55,6 @@ export const loggerOptions: winston.LoggerOptions = {
       return `[${info.timestamp}] [${info.level}]: ${loggerFormat(info)}`;
     }),
   ),
-  exceptionHandlers: [new winston.transports.File({ filename: `logs/exceptions/${dayjs().format('YYYY-MM-DD')}.log` })],
   transports: [
     new winston.transports.Console({
       level: 'info',

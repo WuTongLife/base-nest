@@ -18,6 +18,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@cache": ["./src/common/cache/index.ts"],
       "@config/*": ["./src/common/config/*"],
       "@entities": ["./src/entities/index.ts"],
       "@config": ["./src/common/config/index.ts"],
