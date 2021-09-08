@@ -87,9 +87,11 @@
     "webpack-node-externals": "^3.0.0"
   },
   "lint-staged": {
-    "{src,test}/**/*.{js,ts,tsx,jsx}": [
-      "prettier --write",
-      "eslint --fix"
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
     ]
   },
   "husky": {
