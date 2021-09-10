@@ -24,7 +24,6 @@ export class CacheService {
    */
   public async set(key: string, value: any, seconds?: number): Promise<any> {
     value = JSON.stringify(value);
-    console.log(this.client.set);
     if (!seconds) {
       await this.client.set(key, value);
     } else {
