@@ -1,18 +1,18 @@
-// import * as OSS from 'ali-oss';
+import { UploadResult } from '@interfaces/oss.interface';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+const OSS = require('ali-oss');
 
 @Injectable()
 export class OssUtil {
   private client: any;
   public constructor(config: ConfigService) {
-    console.log(config.get('OSS'));
-    // this.client = new OSS({
-    //   accessKeyId: config.get('OSS.secretKey'),
-    //   accessKeySecret: config.get('OSS.accessKeySecret'),
-    //   region: config.get('OSS.region'),
-    //   bucket: config.get('OSS.bucket'),
-    // });
+    this.client = new OSS({
+      accessKeyId: config.get('OSS.accessKeyId'),
+      accessKeySecret: config.get('OSS.accessKeySecret'),
+      region: config.get('OSS.region'),
+      bucket: config.get('OSS.bucket'),
+    });
   }
 
   // 创建存储空间。

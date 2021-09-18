@@ -9,6 +9,7 @@ import { ValidationPipe } from '@pipes/validation.pipe';
 import { TransformInterceptor } from '@interceptors/response.interceptor';
 import { LoggingInterceptor } from '@interceptors/logging.interceptor';
 import { ErrorInterceptor } from '@interceptors/error.interceptor';
+import { Logger } from '@nestjs/common';
 
 declare const module: any;
 const port = process.env.PORT || 3000;
@@ -57,5 +58,7 @@ async function bootstrap() {
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
+
+  Logger.log(`http://localhost:${port}`, '服务启动成功');
 }
 bootstrap();

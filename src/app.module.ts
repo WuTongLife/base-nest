@@ -12,11 +12,13 @@ import { JwtAuthGuard } from '@common/guards';
 import { AuthModule } from '@common/auth/auth.module';
 import { UserModule } from '@modules/system/user/user.module';
 import { RedisService } from '@cache';
+import { OSSModule } from '@modules/oss/oss.module';
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
+    OSSModule,
     WinstonModule.forRoot(loggerOptions),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -42,6 +44,7 @@ import { RedisService } from '@cache';
     ConfigModule.forRoot({
       load: appConfig,
       isGlobal: true,
+      envFilePath: ['.env.development.local'],
     }),
   ],
   controllers: [AppController],
