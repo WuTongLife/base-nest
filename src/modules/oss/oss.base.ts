@@ -4,6 +4,7 @@ import * as dayjs from 'dayjs';
 import * as path from 'path';
 import * as OSS from 'ali-oss';
 import { OSSOptions, OSSSucessResponse, UploadResult, ClientSign, File } from '@interfaces/oss.interface';
+import { ValidationError } from '@common/exceptions';
 
 export class OSSBase {
   protected ossClient: OSS;
@@ -23,7 +24,7 @@ export class OSSBase {
    * 上传到OSS
    * @param file
    */
-  protected async uploadOSS(file: File | File[]) {
+  protected async uploadOSS(file: File | File[], dir?: string) {
     const result: UploadResult[] = [];
     let files: File[] = [];
 
@@ -33,15 +34,21 @@ export class OSSBase {
       files = [file];
     }
 
+    const fileNames = new Set(files.map((d) => d.originalname));
+    if (fileNames.size !== files.length) {
+      throw new ValidationError('文件名存在相同的');
+    }
+
     if (files && files.length > 0) {
       for (const item of files) {
         const filename = this.getImgName(item.originalname);
-        const imgPath = `images/${dayjs().format('YYYYMMDD')}`;
+        const imgPath = `${dir || 'images'}/${dayjs().format('YYYYMMDD')}`;
         const target = imgPath + '/' + filename;
         const info: UploadResult = {
           uploaded: true,
           path: '',
           src: '',
+          fileName: item.originalname,
           // srcSign: '',
           message: '上传成功',
         };

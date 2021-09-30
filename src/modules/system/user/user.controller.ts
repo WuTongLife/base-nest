@@ -1,5 +1,5 @@
-import { Controller, Post, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Post, ClassSerializerInterceptor, UseInterceptors, Request, Get } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 
 @ApiBearerAuth()
@@ -13,5 +13,11 @@ export class UserController {
   @UseInterceptors(ClassSerializerInterceptor)
   allUser() {
     return this.userService.allUser();
+  }
+
+  @Get('currentUser')
+  @ApiOperation({ summary: '当前用户' })
+  async currentUser(@Request() req) {
+    return this.userService.findOne(req['user'].id);
   }
 }

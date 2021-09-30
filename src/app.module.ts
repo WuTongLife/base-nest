@@ -13,12 +13,16 @@ import { AuthModule } from '@common/auth/auth.module';
 import { UserModule } from '@modules/system/user/user.module';
 import { RedisService } from '@cache';
 import { OSSModule } from '@modules/oss/oss.module';
+import { ArticleModule } from '@modules/blog/article/article.module';
+import { DictionaryModule } from '@modules/system/dictionary/dict.module';
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
     OSSModule,
+    ArticleModule,
+    DictionaryModule,
     WinstonModule.forRoot(loggerOptions),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

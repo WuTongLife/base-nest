@@ -6,6 +6,7 @@ export interface UploadResult {
   src: string;
   srcSign?: string;
   message: string;
+  fileName?: string;
 }
 
 export interface File {

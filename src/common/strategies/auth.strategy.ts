@@ -38,7 +38,7 @@ export class AuthStrategy extends PassportStrategy(Strategy) {
     if (token && (token.startsWith('Bearer') ? token.substring(7) : token) !== JSON.parse(cacheToken).trim()) {
       throw new HttpUnauthorizedError('您账户已经在另一处登陆，请重新登陆');
     }
-    // 如果用用户信息，代表 token 没有过期，没有则 token 已失效
+    // 如果无用户信息，代表 token 没有过期，没有则 token 已失效
     if (!user) throw new HttpUnauthorizedError('无授权访问');
     return user;
   }

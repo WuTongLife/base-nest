@@ -1,5 +1,5 @@
 import { UnauthorizedException, HttpStatus } from '@nestjs/common';
-import { FORBIDDEN_ERROR } from '@constants/error/general.constant';
+import { LOGGING_TIMEOUT } from '@constants/error/general.constant';
 import { TExceptionOption } from '@interfaces/response.interface';
 import { isString } from 'lodash';
 
@@ -9,6 +9,6 @@ import { isString } from 'lodash';
  */
 export class HttpUnauthorizedError extends UnauthorizedException {
   constructor(message?: TExceptionOption, error?: string) {
-    super(isString(message) ? { ...FORBIDDEN_ERROR, msg: message } : message || FORBIDDEN_ERROR, error);
+    super(isString(message) ? { ...LOGGING_TIMEOUT, msg: message } : message || LOGGING_TIMEOUT, error);
   }
 }

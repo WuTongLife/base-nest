@@ -18,6 +18,11 @@ export const FORBIDDEN_ERROR = {
   msg: '无权限访问',
 };
 
+export const LOGGING_TIMEOUT = {
+  code: 401,
+  msg: '登录超时',
+};
+
 export const UNAUTHORIZED_ERROR = {
   code: 100005,
   msg: '无授权访问',

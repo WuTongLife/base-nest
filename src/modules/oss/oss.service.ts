@@ -1,9 +1,12 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { NormalSuccessResponse, DeleteMultiResult } from 'ali-oss';
 import { OSSBase } from './oss.base';
 import * as OSS from 'ali-oss';
-import { OSSOptions, File, UploadResult } from '@interfaces/oss.interface';
+import { File, UploadResult } from '@interfaces/oss.interface';
 import { ConfigService } from '@nestjs/config';
+import { FileEntity } from '@src/entities';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 /**
  * OSS
@@ -12,7 +15,11 @@ import { ConfigService } from '@nestjs/config';
  */
 @Injectable()
 export class OSSService extends OSSBase {
-  constructor(private readonly config: ConfigService) {
+  constructor(
+    @InjectRepository(FileEntity)
+    private readonly fileRepository: Repository<FileEntity>,
+    private readonly config: ConfigService,
+  ) {
     super();
     this.options = {
       client: this.config.get('OSS'),
@@ -58,11 +65,19 @@ export class OSSService extends OSSBase {
    * 上传
    * @param file
    */
-  public async upload(files: File | File[]): Promise<UploadResult[]> {
-    //if (this.version >= 11.7 && this.options.multi) {
-    //    return await this.uploadOSSMuit(files);
-    //} else {
-    return await this.uploadOSS(files);
-    //}
+  public async upload(files: File | File[], dir?: string): Promise<UploadResult[]> {
+    const result = await this.uploadOSS(files, dir);
+    // 存到文件记录里
+    const fileEntities = result.map((d) =>
+      Object.assign(new FileEntity(), { path: d.path, status: d.uploaded, src: d.src, fileName: d.fileName }),
+    );
+    const records = await this.fileRepository.save(fileEntities);
+    return result.map((d) => {
+      const record = records.find((f) => f.fileName === d.fileName);
+      return {
+        ...d,
+        id: record?.id,
+      };
+    });
   }
 }
