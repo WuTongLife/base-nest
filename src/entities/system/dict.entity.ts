@@ -15,6 +15,6 @@ export class DictionaryEntity {
   @Index({ unique: true })
   public aliasKey: string;
 
-  @Column({ type: 'varchar', length: 300, comment: '描述' })
-  public description: string;
+  @Column({ nullable: true, type: 'varchar', length: 300, comment: '描述' })
+  public description?: string;
 }

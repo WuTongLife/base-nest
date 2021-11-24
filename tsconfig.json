@@ -31,6 +31,7 @@
       "@pipes/*": ["./src/common/pipes/*"],
       "@utils/*": ["./src/common/utils/*"],
       "@transforms/*": ["./src/common/transforms/*"],
+      "@decorators": ["./src/common/decorators/index.ts"],
       "@decorators/*": ["./src/common/decorators/*"],
       "@middlewares/*": ["./src/common/middlewares/*"],
       "@common/*": ["./src/common/*"],

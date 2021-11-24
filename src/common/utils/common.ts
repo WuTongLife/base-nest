@@ -1,3 +1,5 @@
+import { isEmpty } from 'lodash';
+
 export const findChildren = (allData: any[], { parentId, field }: { parentId: number; field: string }) => {
   return allData
     .filter((d) => d.parentId === parentId)
@@ -23,3 +25,17 @@ export const cutOutString = (str: string) => (length: number) => str.substr(0, s
  * @returns 返回剩下的字符串
  */
 export const cutOutStringThree = (str: string) => cutOutString(str)(3);
+
+/**
+ * 转换对象
+ */
+export const transformObjectExcludeEmpty = (target, source) => {
+  for (const key in source) {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+      const element = source[key];
+      if (!isEmpty(element)) {
+        target[key] = element;
+      }
+    }
+  }
+};

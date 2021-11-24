@@ -16,7 +16,7 @@ export class UserEntity extends BaseEntity {
   @Exclude()
   public password: string;
 
-  @Column({ length: 32, comment: '用户登录账号' })
+  @Column({ length: 32, comment: '用户登录账号', unique: true })
   public username: string;
 
   @Column({ nullable: true, length: 32, comment: '用户显示昵称' })
