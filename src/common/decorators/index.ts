@@ -1,4 +1,4 @@
-import { Public } from './auth.decorator';
-import { Permissions } from './permissions.decorator';
+import { IS_PUBLIC_KEY, SkipJwtAuth } from './auth.decorator';
+import { Permissions, PERMISSION_KEY } from './permissions.decorator';
 
-export { Public, Permissions };
+export { SkipJwtAuth, Permissions, PERMISSION_KEY, IS_PUBLIC_KEY };

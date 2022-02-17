@@ -31,6 +31,10 @@ export class TransformInterceptor<T> implements NestInterceptor<T, THttpSuccessR
     return call$.pipe(
       map((item: any) => {
         const data = !usePaginate ? item : transformDataToPaginate<T>(item);
+        const keys = Object.keys(data);
+        if (keys.includes('code') && keys.includes('msg')) {
+          return data;
+        }
         return { code: Number(code), msg, data };
       }),
     );

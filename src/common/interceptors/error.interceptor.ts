@@ -25,17 +25,18 @@ export class ErrorInterceptor implements NestInterceptor {
     return call$.pipe(
       catchError((error) => {
         if (error.response && error.status) {
-          return throwError(error);
+          return throwError(() => error);
         }
         return throwError(
-          new PlatformError(
-            {
-              code: Number(code),
-              msg,
-              error: error.message,
-            },
-            status,
-          ),
+          () =>
+            new PlatformError(
+              {
+                code: Number(code),
+                msg,
+                error: error.message,
+              },
+              status,
+            ),
         );
       }),
     );

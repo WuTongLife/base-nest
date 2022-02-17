@@ -7,7 +7,7 @@ export class CacheService {
   private client: Redis;
 
   onModuleInit(): void {
-    console.log('程序执行');
+    console.log('Redis启动');
     this.getClient();
   }
 

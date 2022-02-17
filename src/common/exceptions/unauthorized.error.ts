@@ -1,7 +1,5 @@
 import { UnauthorizedException, HttpStatus } from '@nestjs/common';
-import { FORBIDDEN_ERROR } from '@constants/error/general.constant';
 import { TExceptionOption } from '@interfaces/response.interface';
-import { isString } from 'lodash';
 
 /**
  * @class HttpUnauthorizedError
@@ -9,6 +7,10 @@ import { isString } from 'lodash';
  */
 export class HttpUnauthorizedError extends UnauthorizedException {
   constructor(message?: TExceptionOption, error?: string) {
-    super(isString(message) ? { ...FORBIDDEN_ERROR, msg: message } : message || FORBIDDEN_ERROR, error);
+    super({
+      code: HttpStatus.UNAUTHORIZED,
+      msg: message || '未授权/权限验证失败',
+      error,
+    });
   }
 }

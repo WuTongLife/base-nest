@@ -10,6 +10,7 @@ import { TransformInterceptor } from '@interceptors/response.interceptor';
 import { LoggingInterceptor } from '@interceptors/logging.interceptor';
 import { ErrorInterceptor } from '@interceptors/error.interceptor';
 import { Logger } from '@nestjs/common';
+import { JwtAuthGuard, RolesGuard } from '@common/guards';
 
 declare const module: any;
 const port = process.env.PORT || 3000;

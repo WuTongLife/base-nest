@@ -23,8 +23,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   handleRequest(err, user) {
+    // console.log('auth-guard', err, user);
     if (err || !user) {
-      throw err || new HttpUnauthorizedError();
+      throw err || new HttpUnauthorizedError("登录失效");
     }
     return user;
   }

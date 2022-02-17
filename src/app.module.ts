@@ -8,7 +8,7 @@ import { AppService } from './app.service';
 import appConfig from '@config';
 import { loggerOptions } from '@utils/log.util';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from '@common/guards';
+import { JwtAuthGuard, RolesGuard } from '@common/guards';
 import { AuthModule } from '@common/auth/auth.module';
 import { UserModule } from '@modules/system/user/user.module';
 import { RedisService } from '@cache';
@@ -31,7 +31,7 @@ import { OSSModule } from '@modules/oss/oss.module';
         dateStrings: true,
         charset: 'utf8mb4',
         timezone: 'local',
-        password: 'WuTong123***',
+        password: 'WuTong(^)%@&960527',
         database: 'base_nest',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
@@ -51,14 +51,8 @@ import { OSSModule } from '@modules/oss/oss.module';
   providers: [
     AppService,
     RedisService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+    { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })
 export class AppModule {}

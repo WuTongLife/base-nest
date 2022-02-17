@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService, ConfigModule } from '@nestjs/config';
-import { CryptoUtil } from 'src/common/utils/crypto.util';
-import { AuthStrategy } from '@common/strategies/auth.strategy';
 import { AuthService } from './auth.service';
 import { UserEntity } from '@entities';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { CacheService } from '@cache';
+import { LocalStrategy, AuthStrategy } from '@common/strategies';
 
 @Module({
   imports: [
@@ -23,7 +22,7 @@ import { CacheService } from '@cache';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, CryptoUtil, AuthStrategy, CacheService], // 注入器实例化
+  providers: [AuthService, AuthStrategy, LocalStrategy, CacheService, ConfigService], // 注入器实例化
   controllers: [AuthController],
   exports: [AuthService],
 })
