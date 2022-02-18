@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { CacheService } from '@cache';
 import { LocalStrategy, AuthStrategy } from '@common/strategies';
+import { UserService } from '@modules/system/user/user.service';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { LocalStrategy, AuthStrategy } from '@common/strategies';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, AuthStrategy, LocalStrategy, CacheService, ConfigService], // 注入器实例化
+  providers: [AuthService, AuthStrategy, LocalStrategy, CacheService, ConfigService, UserService], // 注入器实例化
   controllers: [AuthController],
   exports: [AuthService],
 })

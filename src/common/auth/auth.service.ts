@@ -9,12 +9,14 @@ import { HttpForbiddenError, ValidationError } from '@common/exceptions';
 import { CacheService } from '@cache';
 import { ConfigService } from '@nestjs/config';
 import { IHttpResponseBase } from '@interfaces/response.interface';
+import { UserService } from '@modules/system/user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly redisService: CacheService,
     private readonly config: ConfigService,
@@ -35,7 +37,7 @@ export class AuthService {
   }
 
   async login(user: UserEntity): Promise<LoginResultDto> {
-    if (!user.status) throw new HttpForbiddenError('该账号已被禁用，请切换账号登录');
+    if (!user.isDisabled) throw new HttpForbiddenError('该账号已被禁用，请切换账号登录');
     // 生成 token
     const token = await this.createToken({
       id: user.id,
@@ -48,6 +50,10 @@ export class AuthService {
       expiresIn = Number(expiresIn.replace('h', '')) * 60 * 60;
     }
     await this.redisService.set(`user-token-${user.id}`, token, expiresIn); // 在这里使用redis
+    await this.userService.updateUser(
+      { id: user.id, lastLoginTime: user.loginTime, loginTime: new Date(), loginCount: user.loginCount + 1 },
+      ['lastLoginTime', 'loginTime', 'loginCount'],
+    );
     // 返回生成的 token
     return { token, userInfo: user, expiresIn };
   }
